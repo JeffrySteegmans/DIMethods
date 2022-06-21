@@ -28,6 +28,36 @@ namespace DependencyInjectionMethods.Services.Extensions
 
             return services;
         }
+                
+        public static IServiceCollection TryAddServiceOneWitMultipleLifeTimes(this IServiceCollection services)
+        {
+            services.TryAddSingleton<IService, ServiceOne>();
+            services.TryAddScoped<IService, ServiceOne>();
+            services.TryAddTransient<IService, ServiceOne>();
+
+            return services;
+        }
+                
+        public static IServiceCollection TryAddEnumerableServiceOneWitMultipleLifeTimes(this IServiceCollection services)
+        {
+            var serviceDescriptorSingleton = new ServiceDescriptor(typeof(IService), typeof(ServiceOne), ServiceLifetime.Singleton);
+            var serviceDescriptorScoped = new ServiceDescriptor(typeof(IService), typeof(ServiceOne), ServiceLifetime.Scoped);
+            var serviceDescriptorTransient = new ServiceDescriptor(typeof(IService), typeof(ServiceOne), ServiceLifetime.Transient);
+
+            services.TryAddEnumerable(new List<ServiceDescriptor> { serviceDescriptorScoped, serviceDescriptorSingleton, serviceDescriptorTransient });
+
+            return services;
+        }
+
+        public static IServiceCollection TryAddServiceOneWitMultipleLifeTimesAndTokenInterface(this IServiceCollection services)
+        {
+            services.TryAddSingleton<IService, ServiceOne>();
+            services.TryAddSingleton<IServiceSingleton, ServiceOne>();
+            services.TryAddScoped<IServiceScoped, ServiceOne>();
+            services.TryAddTransient<IServiceTransient, ServiceOne>();
+
+            return services;
+        }
 
         public static IServiceCollection TryAddServiceTwo(this IServiceCollection services)
         {
@@ -66,6 +96,15 @@ namespace DependencyInjectionMethods.Services.Extensions
             var serviceDescriptor = new ServiceDescriptor(typeof(IService), typeof(ServiceOne), ServiceLifetime.Singleton);
 
             services.TryAddEnumerable(serviceDescriptor);
+
+            return services;
+        }
+
+        public static IServiceCollection TryAddReadWriteServicesAsSingleton(this IServiceCollection services)
+        {
+            services.TryAddSingleton<ReadWriteService>();
+            services.TryAddSingleton<IRead>(x => x.GetRequiredService<ReadWriteService>());
+            services.TryAddSingleton<IWrite>(x => x.GetRequiredService<ReadWriteService>());
 
             return services;
         }

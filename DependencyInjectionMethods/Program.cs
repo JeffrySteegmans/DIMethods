@@ -12,17 +12,23 @@ builder.Services.AddSwaggerGen();
 
 #endregion
 
-builder.Services.AddServiceOne();
-//builder.Services.AddServiceTwo();
-//builder.Services.AddDummyService();
+// builder.Services.AddServiceOne();
+// builder.Services.AddServiceTwo();
+// builder.Services.AddDummyService();
 
-//builder.Services.TryAddServiceOne();
-//builder.Services.TryAddServiceTwo();
-//builder.Services.TryAddDummyService();
+// builder.Services.TryAddServiceOne();
+// builder.Services.TryAddServiceTwo();
+// builder.Services.TryAddDummyService();
 
-//builder.Services.TryAddEnumerableServiceOne();
-//builder.Services.TryAddEnumerableServiceTwo();
-//builder.Services.TryAddEnumerableDummyService();
+// builder.Services.TryAddEnumerableServiceOne();
+// builder.Services.TryAddEnumerableServiceTwo();
+// builder.Services.TryAddEnumerableDummyService();
+
+// builder.Services.TryAddServiceOneWitMultipleLifeTimes();
+
+// builder.Services.TryAddEnumerableServiceOneWitMultipleLifeTimes();
+
+builder.Services.TryAddServiceOneWitMultipleLifeTimesAndTokenInterface();
 
 #region " Boilerplate code "
 var app = builder.Build();
