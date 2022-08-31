@@ -28,7 +28,9 @@ builder.Services.AddSwaggerGen();
 
 // builder.Services.TryAddEnumerableServiceOneWitMultipleLifeTimes();
 
-builder.Services.TryAddServiceOneWitMultipleLifeTimesAndTokenInterface();
+// builder.Services.TryAddServiceOneWitMultipleLifeTimesAndTokenInterface();
+
+builder.Services.AddServiceResolver();
 
 #region " Boilerplate code "
 var app = builder.Build();

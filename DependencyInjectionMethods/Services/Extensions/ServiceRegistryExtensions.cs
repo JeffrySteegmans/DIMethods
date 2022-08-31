@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using DependencyInjectionMethods.Services.Delegates;
+using DependencyInjectionMethods.Services.Enums;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DependencyInjectionMethods.Services.Extensions
 {
@@ -105,6 +107,21 @@ namespace DependencyInjectionMethods.Services.Extensions
             services.TryAddSingleton<ReadWriteService>();
             services.TryAddSingleton<IRead>(x => x.GetRequiredService<ReadWriteService>());
             services.TryAddSingleton<IWrite>(x => x.GetRequiredService<ReadWriteService>());
+
+            return services;
+        }
+
+        public static IServiceCollection AddServiceResolver(this IServiceCollection services)
+        {
+            services.AddScoped<ServiceOne>();
+            services.AddScoped<ServiceTwo>();
+
+            services.AddTransient<ServiceResolver>(serviceProvider => serviceType => serviceType switch
+            {
+                ServiceType.ServiceTwo => serviceProvider.GetService<ServiceTwo>()!,
+                _ => serviceProvider.GetService<ServiceOne>()!
+            });
+
 
             return services;
         }
