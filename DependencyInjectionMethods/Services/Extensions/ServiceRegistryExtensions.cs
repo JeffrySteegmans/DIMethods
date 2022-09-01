@@ -152,5 +152,16 @@ namespace DependencyInjectionMethods.Services.Extensions
 
             return services;
         }
+
+        public static IServiceCollection AddPaymentProviderServiceResolver(this IServiceCollection services)
+        {
+            services.AddSingleton<IPaymentProviderService, MolliePaymentProviderService>();
+            services.AddSingleton<IPaymentProviderService, CCVPaymentProviderService>();
+            services.AddSingleton<IPaymentProviderService, NetsPaymentProviderService>();
+
+            services.AddTransient<PaymentProviderServicesResolver>();
+
+            return services;
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using DependencyInjectionMethods.Services.Enums;
 using DependencyInjectionMethods.Services.Payment;
 using DependencyInjectionMethods.Services.ServiceResolvers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DependencyInjectionMethods.Controllers
@@ -9,31 +8,21 @@ namespace DependencyInjectionMethods.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly PaymentServiceResolver _serviceResolver;
-        private readonly IEnumerable<IPaymentProviderService> _paymentProviderServices;
+        private readonly PaymentProviderServicesResolver _paymentProviderServicesResolver;
 
-        public PaymentController(PaymentServiceResolver serviceResolver, IEnumerable<IPaymentProviderService> paymentProviderServices)
+        public PaymentController(PaymentProviderServicesResolver paymentProviderServicesResolver)
         {
-            _serviceResolver = serviceResolver;
-            _paymentProviderServices = paymentProviderServices;
+            _paymentProviderServicesResolver = paymentProviderServicesResolver;
         }
 
-        [HttpGet("serviceresolver/{serviceType}")]
-        public IActionResult GetByServiceResolver(string serviceType)
+        [HttpGet("paymentproviderserviceresolver/{serviceType}")]
+        public IActionResult GetByPaymentProviderServiceResolver(string serviceType)
         {
             var type = (PaymentServiceType)Enum.Parse(typeof(PaymentServiceType), serviceType, true);
 
-            var service = _serviceResolver(type);
+            var service = _paymentProviderServicesResolver.GetService(type);
 
             return Ok(service.GetType().Name);
-        }
-
-        [HttpGet("reflection/{serviceName}")]
-        public IActionResult CCVByReflection(string serviceName)
-        {
-            var paymentProviderService = _paymentProviderServices.FirstOrDefault(x => x.GetType().Name.ToLower() == $"{serviceName}paymentproviderservice");
-
-            return Ok(paymentProviderService!.GetType().Name);
         }
     }
 }

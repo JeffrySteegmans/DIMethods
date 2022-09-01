@@ -32,9 +32,11 @@ builder.Services.AddSwaggerGen();
 
 // builder.Services.AddServiceResolver();
 
-builder.Services.AddPaymentServiceResolver();
+//builder.Services.AddPaymentServiceResolver();
 
-builder.Services.AddPaymentServices();
+//builder.Services.AddPaymentServices();
+
+builder.Services.AddPaymentProviderServiceResolver();
 
 #region " Boilerplate code "
 var app = builder.Build();
