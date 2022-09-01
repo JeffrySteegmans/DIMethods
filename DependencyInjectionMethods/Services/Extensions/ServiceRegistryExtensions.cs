@@ -1,5 +1,7 @@
 ﻿using DependencyInjectionMethods.Services.Delegates;
 using DependencyInjectionMethods.Services.Enums;
+using DependencyInjectionMethods.Services.Payment;
+using DependencyInjectionMethods.Services.ServiceResolvers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DependencyInjectionMethods.Services.Extensions
@@ -122,6 +124,31 @@ namespace DependencyInjectionMethods.Services.Extensions
                 _ => serviceProvider.GetService<ServiceOne>()!
             });
 
+
+            return services;
+        }
+
+        public static IServiceCollection AddPaymentServiceResolver(this IServiceCollection services)
+        {
+            services.AddScoped<MolliePaymentProviderService>();
+            services.AddScoped<CCVPaymentProviderService>();
+            services.AddScoped<NetsPaymentProviderService>();
+
+            services.AddTransient<PaymentServiceResolver>(serviceProvider => paymentServiceType => paymentServiceType switch
+            {
+                PaymentServiceType.Mollie => serviceProvider.GetService<MolliePaymentProviderService>()!,
+                PaymentServiceType.NETS => serviceProvider.GetService<NetsPaymentProviderService>()!,
+                _ => serviceProvider.GetService<CCVPaymentProviderService>()!
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddPaymentServices(this IServiceCollection services)
+        {
+            services.AddSingleton<IPaymentProviderService, MolliePaymentProviderService>();
+            services.AddSingleton<IPaymentProviderService, CCVPaymentProviderService>();
+            services.AddSingleton<IPaymentProviderService, NetsPaymentProviderService>();
 
             return services;
         }

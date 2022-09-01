@@ -1,0 +1,6 @@
+﻿using DependencyInjectionMethods.Services.Enums;
+using DependencyInjectionMethods.Services.Payment;
+
+namespace DependencyInjectionMethods.Services.ServiceResolvers;
+
+public delegate IPaymentProviderService PaymentServiceResolver(PaymentServiceType serviceType);

@@ -30,7 +30,11 @@ builder.Services.AddSwaggerGen();
 
 // builder.Services.TryAddServiceOneWitMultipleLifeTimesAndTokenInterface();
 
-builder.Services.AddServiceResolver();
+// builder.Services.AddServiceResolver();
+
+builder.Services.AddPaymentServiceResolver();
+
+builder.Services.AddPaymentServices();
 
 #region " Boilerplate code "
 var app = builder.Build();
